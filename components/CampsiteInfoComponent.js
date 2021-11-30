@@ -25,6 +25,8 @@ function RenderCampsite(props) {
 
     const view = React.createRef();
 
+    const recognizeComment = ({dx}) => (dx > 200) ? true : false;
+
     const recognizeDrag = ({dx}) => (dx < -200) ? true: false;
 
     const panResponder = PanResponder.create({
@@ -52,6 +54,10 @@ function RenderCampsite(props) {
                     ],
                     { cancelable: false }
                 );
+            }
+            else if (recognizeComment(gestureState)) {
+                console.log('LTR Recognized');
+                props.onShowModal();
             }
             return true;
         }
@@ -104,7 +110,7 @@ function RenderComments({comments}) {
     const renderCommentItem = ({item}) => {
         return(
             <View style={{margin: 10}}>
-                <Text style={{fontSize: 14}}>{item.text}</Text>
+                    <Animatable.Text animation="zoomInDown" duration={2000} delay={1000} style={{fontSize: 14}}>{item.text}</Animatable.Text>
                 <Rating 
                     startingValue={item.rating}
                     imageSize={10}
